@@ -123,7 +123,32 @@ if (($handle = $csvFile) !== FALSE) {
     }
 
 fclose($csvFile);
-
 }
+//To print the data in the table
+$hai = "SELECT * FROM $tableName";
+$res = mysqli_query($con,$hai);
+$rownumber = 0;
+echo "<center>";
+echo "<table>\n";
+while ($row = $res->fetch_assoc()) {
+  if (0 == $rownumber) {
+    /* first result set row? look at the keys=column nanes */
+    echo "<tr>";
+    foreach (array_keys($row) as $colname) {
+      echo "<td><b>$colname</b></td><td>&nbsp&nbsp</td>";
+    }
+    echo "</tr>\n";
+    echo " ";
+  }
+  $rownumber ++;
 
+  echo "<tr>";
+  foreach (array_values($row) as $colval) {
+    echo "<td>$colval</td><td>&nbsp&nbsp</td>";
+  }
+  echo "</tr>\n";
+}
+echo "</table>\n";
+echo "</center>";
+$res->close();
 ?>
